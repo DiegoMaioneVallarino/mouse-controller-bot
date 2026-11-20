@@ -1,76 +1,20 @@
-# React + TypeScript + Vite
+# VCA Desktop v0.0.1
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Prototype for Windows desktop observation and manually authorized actions.
 
-Currently, two official plugins are available:
+## Install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Requires Node.js and native build tools for robotjs (Python and Visual Studio C++ Build Tools). `robotjs` is a legacy native module and may fail to build with newer Node versions. Prefer Node 20 LTS if your environment supports it. Run `npm install`, then `npm run dev`.
 
-## React Compiler
+Open http://127.0.0.1:5173. Local API listens on 127.0.0.1:4317.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Desktop screenshots and OCR (English language model).
+- Manual scroll and text input on the active Windows window.
+- Move/click available in API with validated screen coordinates.
+- Observation mode is default. Execution mode must be enabled manually.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Limitations
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-"# mouse-controller-bot" 
+This is a proof of concept, not an autonomous agent. The STOP button disables subsequent actions but cannot interrupt an already running synchronous robotjs call. It does not have a global emergency hotkey, sensitive-screen detection, persistent tasks, or visual change detection. The UI is itself a window: minimize or move it away to operate on the target window. Screenshots are held in memory and returned through localhost. Avoid exposing localhost to untrusted web pages; add authentication and strict origin checks before production use. Do not use this to evade access restrictions or platform security measures.
